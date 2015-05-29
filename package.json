@@ -1,0 +1,16 @@
+{
+  "name": "simple-blog-project",
+  "version": "0.0.0",
+  "description": "A simple blog project site. Written for ITC298 Advanced JavaScript class (Spring 2015) under the instruction of Thomas Wilburn.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Michael Christensen",
+  "license": "ISC",
+  "dependencies": {
+    "hapi": "^8.5.2",
+    "grunt": "^0.4.5",
+    "handlebars": "^3.0.3"
+  }
+}
