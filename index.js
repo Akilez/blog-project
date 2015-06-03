@@ -26,3 +26,13 @@ server.route({
     reply.view("index", {title: "Simple Blog Site"});
   }
 });
+
+server.route({
+  method: "GET",
+  path: "/assets/{param*}",
+  handler: {
+    directory: {
+      path: "public"
+    }
+  }
+});
