@@ -26,7 +26,7 @@ module.exports = function(grunt) {
         tasks: ["less", "autoprefixer"]
       },
       js: {
-        files: ["src/js/**/*.js", "public/js/**/*.js"],
+        files: ["**/*.js", "!node_modules/**/*.js"],
         tasks: ["concat", "uglify"]
       }
     },
