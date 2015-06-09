@@ -1,11 +1,11 @@
 var async = require("async");
 var sqlite = require("sqlite3");
-var db;
 
-var database = {
-  connection: null,
+var wrapper = {
+  db: null,
   init: function(done) {
-    db = new sqlite.Database("posts.db", function(err) {
+    wrapper.db = new sqlite.Database("posts.db", function(err) {
+      var db = this;
       if(err) {
         console.error("Database not opened!");
         process.exit(1);
@@ -24,3 +24,5 @@ var database = {
     })
   }
 }
+
+module.exports = wrapper;
