@@ -1,5 +1,8 @@
-<h1>{{title}}</h1>
+{{err}}
+{{#blog}}
+<h1><a href="/posts/{{slug}}">{{title}}</a></h1>
 
-<cite>{{author}}</cite>
+<cite>{{author}} posted on: {{date}}</cite>
 
 <p>{{content}}
+{{/blog}}
