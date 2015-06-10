@@ -1,7 +1,8 @@
 var Backbone = require("backbone");
 var query = require("../db.js");
 
-var ADD = "INSERT INTO posts (title, slug, date, content, author) VALUES ($title, $slug, $date, $content, $author)"
+var ADD = "INSERT INTO posts (title, slug, date, content, author) VALUES ($title, $slug, $date, $content, $author)";
+var SINGLE = "SELECT * FROM posts WHERE slug = $slug";
 
 module.exports = Backbone.Model.extend({
   defaults: {
@@ -30,5 +31,15 @@ module.exports = Backbone.Model.extend({
       if (err) console.error(err);
       complete();
     })
+  },
+  getPost: function(slug, complete) {
+    console.log(query);
+    var stmt = query.db.prepare(SINGLE);
+    stmt.get({
+      $slug: slug
+    }, function(err, response) {
+      if (err) console.error(err);
+      complete(response);
+    });
   }
 });

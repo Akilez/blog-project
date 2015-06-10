@@ -11,6 +11,7 @@ server.views({
   path: "views/templates",
   layoutPath: "views",
   layout: "default",
+  layoutKeyword: "pageContent",
   engines: {
     html: require("handlebars")
   },
@@ -43,6 +44,18 @@ server.route([
       var post = new Post(req.payload);
       post.add(function() {
         reply.view("add-new", {err: "Post successfully created!"})
+      })
+    }
+  },
+  {
+    path:"/posts/{title}",
+    method:"GET",
+    handler: function(req, reply) {
+      console.log(req.payload);
+      var post = new Post();
+      post.getPost(req.params.title, function(response) {
+        console.log("Got:", response);
+        reply.view("blog", response)
       })
     }
   },
