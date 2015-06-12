@@ -11,11 +11,9 @@ module.exports = Backbone.Collection.extend({
     var stmt = query.db.prepare(ALL);
     stmt.all(function(err, results){
       self.add(results);
-      self.each(function(post) {
-        console.log(post.get("date"));
-        var jDate = Date(post.get("date"));
-        console.log(jDate);
-        post.set("date", jDate.toString());
+      results.forEach(function(element, index, array) {
+        var newDate = new Date(element.date);
+        element.date = newDate.toLocaleString();
       });
       complete(results);
     });

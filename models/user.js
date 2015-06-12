@@ -22,10 +22,12 @@ module.exports = Backbone.Model.extend ({
     }, function (error) {
       var errors = [];
       if (error) {
-        errors.push({
-          err: error,
-          type: danger
-        });
+        if (error.errno == 19) {
+          errors.push({
+            err: "That username is already taken!",
+            type: "warning"
+          });
+        }
       } else {
         errors.push({
           err: "User Registered Successfully!",

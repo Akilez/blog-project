@@ -30,11 +30,17 @@ module.exports = Backbone.Model.extend({
         $content: data.content,
         $author: data.author
       }, function(err) {
-        if (err) console.error(err);
-        complete({
-          err: "Post sucessfully created!!",
-          type: "success"
-        });
+        if (!err) {
+          complete({
+            err: "Post sucessfully created!!",
+            type: "success"
+          });
+        } else if(err.errno == 19) {
+          complete({
+            err: "Post title must be unique!",
+            type: "warning"
+          });
+        }
       });
     } else {
       var errors = [];
@@ -60,6 +66,10 @@ module.exports = Backbone.Model.extend({
       $slug: slug
     }, function(err, response) {
       if (err) console.error(err);
+      if (response) {
+        var newDate = new Date(response[0].date);
+        response[0].date = newDate.toLocaleString();
+      }
       complete(response);
     });
   }

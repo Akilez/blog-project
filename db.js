@@ -13,10 +13,10 @@ var wrapper = {
 
       async.parallel([
         function(next) {
-          db.run("CREATE TABLE IF NOT EXISTS posts (title, slug, date, content, author)", next);
+          db.run("CREATE TABLE IF NOT EXISTS posts (title, slug PRIMARY KEY, date, content, author)", next);
         },
         function(next) {
-          db.run("CREATE TABLE IF NOT EXISTS users (name, password, seed, role)", next);
+          db.run("CREATE TABLE IF NOT EXISTS users (name PRIMARY KEY, password, seed, role)", next);
         }
       ], function(err) {
         if (done) done(err);
