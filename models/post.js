@@ -15,23 +15,43 @@ module.exports = Backbone.Model.extend({
   },
   add: function(complete) {
     var data = this.toJSON();
-    console.log(query);
-    var stmt = query.db.prepare(ADD);
-    var slug = data.title
-                .toLowerCase()
-                .replace(/'/g, '')
-                .replace(/\W/g, "-");
-    console.log(slug);
-    stmt.run({
-      $title: data.title,
-      $slug: slug,
-      $date: Date.now(),
-      $content: data.content,
-      $author: data.author
-    }, function(err) {
-      if (err) console.error(err);
-      complete();
-    });
+    if (data.title != "" && data.content != "") {
+      console.log(query);
+      var stmt = query.db.prepare(ADD);
+      var slug = data.title
+                  .toLowerCase()
+                  .replace(/'/g, '')
+                  .replace(/\W/g, "-");
+      console.log(slug);
+      stmt.run({
+        $title: data.title,
+        $slug: slug,
+        $date: Date.now(),
+        $content: data.content,
+        $author: data.author
+      }, function(err) {
+        if (err) console.error(err);
+        complete({
+          err: "Post sucessfully created!!",
+          type: "success"
+        });
+      });
+    } else {
+      var errors = [];
+      if (data.title == "") {
+        errors.push({
+          err: "Title is blank, try again!",
+          type: "danger"
+        });
+      }
+      if (data.content == "") {
+        errors.push({
+          err: "Content is blank, try again!",
+          type: "danger"
+        });
+      }
+      complete(errors)
+    }
   },
   getPost: function(slug, complete) {
     console.log(query);
