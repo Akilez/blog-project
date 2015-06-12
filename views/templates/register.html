@@ -1,0 +1,13 @@
+<h1>Register for Our Site</h1>
+<form action="/register" method="post">
+  <div class="form-group">
+    <input type="text" name="name" placeholder="Your name" class="form-control" />
+  </div>
+  <div class="form-group">
+    <input type="text" name="password" placeholder="password" class="form-control" />
+  </div>
+  <!-- All users will be admin in testing, change this for production -->
+  <input type="hidden" value="admin" name="role" />
+
+  <input type="submit" value="Register" class="btn btn-primary" />
+</form>

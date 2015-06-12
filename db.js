@@ -16,7 +16,7 @@ var wrapper = {
           db.run("CREATE TABLE IF NOT EXISTS posts (title, slug, date, content, author)", next);
         },
         function(next) {
-          db.run("CREATE TABLE IF NOT EXISTS users (name, password, role)", next);
+          db.run("CREATE TABLE IF NOT EXISTS users (name, password, seed, role)", next);
         }
       ], function(err) {
         if (done) done(err);

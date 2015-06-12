@@ -31,7 +31,7 @@ module.exports = Backbone.Model.extend({
     }, function(err) {
       if (err) console.error(err);
       complete();
-    })
+    });
   },
   getPost: function(slug, complete) {
     console.log(query);

@@ -70,6 +70,36 @@ server.route([
     }
   },
   {
+    path:"/register",
+    method:"GET",
+    handler: function(req, reply) {
+      reply.view("register")
+    }
+  },
+  {
+    path:"/register",
+    method:"POST",
+    handler: function(req, reply) {
+      console.log(req.payload);
+      var post = new Post(req.payload);
+      post.add(function(error) {
+        if (error) {
+          reply.view("index", {
+            msgs: [
+              {err: error, type: "danger"}
+            ]
+          });
+        } else {
+          reply.view("index", {
+            msgs: [
+              {err: "Registered Successfully!", type: "success"}
+            ]
+          });
+        }
+      });
+    }
+  },
+  {
     method: "GET",
     path: "/assets/{param*}",
     handler: {
