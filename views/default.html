@@ -1,13 +1,41 @@
 <!doctype html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>{{title}} | Simple Blog Project</title>
-    <link rel="stylesheet" href="/assets/css/style.css">
-  </head>
-  <body>
-    {{{pageContent}}}
-  </body>
-  <script src="/assets/js/site.js"></script>
-  <script src="http://localhost:35729/livereload.js"></script>
+<head>
+  <meta charset="utf-8">
+  <title>{{title}} | Simple Blog Project</title>
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+  <div class="container-fluid bg-primary">
+    <div class="container">
+      <h1>Mike's Personal blog</h1>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8">
+        {{#msgs}}
+        <div class="alert alert-{{type}} alert-dismissible" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          {{err}}
+        </div>
+        {{/msgs}}
+
+        {{{pageContent}}}
+      </div>
+      <div class="col-md-4">
+        <div class="panel panel-default page-header">
+          <div class="panel-heading">Login</div>
+          <div class="panel-body">
+            <a class="btn btn-primary" href="/add">Add NewPost</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="/assets/js/site.js"></script>
+<script src="http://localhost:35729/livereload.js"></script>
 </html>

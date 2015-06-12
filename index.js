@@ -24,10 +24,27 @@ server.views({
 
 server.route([
   {
-    path: "/",
-    method: "GET",
+    path:"/{title?}",
+    method:"GET",
     handler: function(req, reply) {
-      reply.view("index", {title: "Simple Blog Site"});
+      console.log(req.payload);
+      if (req.params.title) {
+        var post = new Post();
+        post.getPost(req.params.title, function(response) {
+          console.log("Got:", response);
+          if (response) {
+            reply.view("index", {blog: response});
+          } else {
+            reply.view("blog", {err: "The requested post does not exist!!"});
+          }
+        });
+      } else {
+        var posts = new Posts();
+        posts.getAll(function(response) {
+          console.log("Got:", response);
+          reply.view("index", {blog: response})
+        });
+      }
     }
   },
   {
@@ -44,32 +61,12 @@ server.route([
       console.log(req.payload);
       var post = new Post(req.payload);
       post.add(function() {
-        reply.view("add-new", {err: "Post successfully created!"})
-      })
-    }
-  },
-  {
-    path:"/posts/{title?}",
-    method:"GET",
-    handler: function(req, reply) {
-      console.log(req.payload);
-      if (req.params.title) {
-        var post = new Post();
-        post.getPost(req.params.title, function(response) {
-          console.log("Got:", response);
-          if (response) {
-            reply.view("blog", {blog: response});
-          } else {
-            reply.view("blog", {err: "The requested post does not exist!!"});
-          }
+        reply.view("add-new", {
+          msgs: [
+            {err: "Post successfully created!", type: "success"}
+          ]
         });
-      } else {
-        var posts = new Posts();
-        posts.getAll(function(response) {
-          console.log("Got:", response);
-          reply.view("blog", {blog: response})
-        });
-      }
+      });
     }
   },
   {

@@ -2,6 +2,7 @@ var Backbone = require("backbone");
 var query = require("../db.js");
 
 var ADD = "INSERT INTO posts (title, slug, date, content, author) VALUES ($title, $slug, $date, $content, $author)";
+var DELETE = "DELETE * FROM posts WHERE slug = $slug"
 var SINGLE = "SELECT * FROM posts WHERE slug = $slug";
 
 module.exports = Backbone.Model.extend({
