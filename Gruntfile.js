@@ -27,7 +27,7 @@ module.exports = function(grunt) {
       },
       js: {
         files: ["**/*.js", "!node_modules/**/*.js"],
-        tasks: ["concat", "uglify"]
+        tasks: ["concat"]
       }
     },
     less: {
@@ -55,9 +55,9 @@ module.exports = function(grunt) {
     concat: {
       js : {
             src : [
-                'src/js-src/*'
+                "src/js-src/*"
             ],
-            dest : 'src/js/combined.js'
+            dest : "public/js/site.js"
         }
     },
     nodemon: {

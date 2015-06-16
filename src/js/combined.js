@@ -986,7 +986,7 @@
 
 var LoginModel = Backbone.Model.extend({
   defaults: {
-    user: '',
+    user: document.cookie.replace(/(?:(?:^|.*;\s*)loggedIn\s*\=\s*([^;]*).*$)|^.*$/, "$1");,
     validLogin: "true"
   },
   logoutCmd: function() {
@@ -1004,6 +1004,7 @@ var LoginModel = Backbone.Model.extend({
       console.log(response);
       if (response.pass) {
         model.set("user", response.user);
+        document.cookie = "loggedIn=" + response.user;
       } else {
         model.set("validLogin", "false");
       }
