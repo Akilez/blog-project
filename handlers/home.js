@@ -2,26 +2,21 @@ var Post = require("../models/post.js");
 var Posts = require("../models/posts.js");
 
 module.exports = function(req, reply) {
-  console.log(req.payload);
+  console.log(req.params.title);
   if (req.params.title) {
     var post = new Post();
-    post.getPost(req.params.title, function(response) {
+    post.getPost(req.params.title, function(err, response) {
       console.log("Got:", response);
       if (response) {
         reply.view("index", {blog: response});
       } else {
-        reply.redirect("/", {
-          msgs: [{
-            err: "The requested post does not exist!!",
-            type: "warning"
-          }]
-        });
+        reply.view("404");
       }
     });
   } else {
     var posts = new Posts();
-    posts.getAll(function(response) {
-      console.log("Got:", response);
+    posts.getAll(function(err, response) {
+      console.log("Got all:", response);
       reply.view("index", {blog: response})
     });
   }

@@ -2,6 +2,7 @@ var Backbone = require("backbone");
 var query = require("../db.js");
 
 var ADD = "INSERT INTO users (name, password, seed, role) VALUES ($name, $password, $seed, $role)";
+var GET = "SELECT * FROM users WHERE name = $name";
 
 module.exports = Backbone.Model.extend ({
   defaults: {
@@ -20,21 +21,25 @@ module.exports = Backbone.Model.extend ({
       $seed: data.seed,
       $role: data.role
     }, function (error) {
-      var errors = [];
       if (error) {
         if (error.errno == 19) {
-          errors.push({
-            err: "That username is already taken!",
-            type: "warning"
-          });
+          complete(["That username is already taken!"], null);
+        } else {
+          complete([error], null);
         }
       } else {
-        errors.push({
-          err: "User Registered Successfully!",
-          type: "success"
-        });
+        complete(null, ["User Registered Successfully!"]);
       }
-      complete(errors);
     });
+  },
+  getUser: function (complete) {
+    var data = this.toJSON();
+    console.log(data);
+    var stmt = query.db.prepare(GET);
+    stmt.get({
+      $name: data.name,
+    }, function(err, result) {
+      complete(err, result);
+    });   
   }
 });

@@ -15,7 +15,7 @@ module.exports = Backbone.Collection.extend({
         var newDate = new Date(element.date);
         element.date = newDate.toLocaleString();
       });
-      complete(results);
+      complete(null, results);
     });
   }
 });

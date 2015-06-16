@@ -1,9 +1,13 @@
 var hapi = require("hapi");
+var query = require("./db.js");
 var server = new hapi.Server();
 server.connection({ port: 8000});
 
-server.start(function() {
-  console.log("Server is started.")
+query.init(function(){
+  console.log("Database is Running!");
+  server.start(function() {
+    console.log("Server is started.")
+  });
 });
 
 server.views({
@@ -21,8 +25,3 @@ server.views({
 });
 
 server.route(require("./routes.js"));
-
-var query = require("./db.js");
-query.init(function(){
-  console.log("Database is Running!");
-})

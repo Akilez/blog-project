@@ -31,32 +31,20 @@ module.exports = Backbone.Model.extend({
         $author: data.author
       }, function(err) {
         if (!err) {
-          complete({
-            err: "Post sucessfully created!!",
-            type: "success"
-          });
+          complete(null, "Post sucessfully created!!");
         } else if(err.errno == 19) {
-          complete({
-            err: "Post title must be unique!",
-            type: "warning"
-          });
+          complete(["Post title must be unique!"], null);
         }
       });
     } else {
       var errors = [];
       if (data.title == "") {
-        errors.push({
-          err: "Title is blank, try again!",
-          type: "danger"
-        });
+        errors.push("Title is blank, try again!");
       }
       if (data.content == "") {
-        errors.push({
-          err: "Content is blank, try again!",
-          type: "danger"
-        });
+        errors.push("Content is blank, try again!");
       }
-      complete(errors)
+      complete(errors, null)
     }
   },
   getPost: function(slug, complete) {
@@ -67,10 +55,10 @@ module.exports = Backbone.Model.extend({
     }, function(err, response) {
       if (err) console.error(err);
       if (response) {
-        var newDate = new Date(response[0].date);
-        response[0].date = newDate.toLocaleString();
+        var newDate = new Date(response.date);
+        response.date = newDate.toLocaleString();
       }
-      complete(response);
+      complete(null, response);
     });
   }
 });

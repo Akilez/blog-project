@@ -17,6 +17,11 @@ module.exports = [
     handler: require("./handlers/add_new.js")
   },
   {
+    path:"/login",
+    method:"POST",
+    handler: require("./handlers/login.js")
+  },
+  {
     path:"/register",
     method:"GET",
     handler: function(req, reply) {

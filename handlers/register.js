@@ -5,26 +5,30 @@ var User = require("../models/user.js");
 module.exports = function(req, reply) {
   console.log(req.payload);
   var user = new User(req.payload);
-  user.add(function(response) {
-    console.log("Register response:", response)
-    var hasErrors = false;
-    response.forEach(function(element, index, array) {
-      console.log("Message Element:", element);
-      if (element.type != "success") {
-        hasErrors = true;
-      }
-    });
-    if (hasErrors) {
+  user.add(function(err, response) {
+    var messages = [];
+    if (err) {
+      err.forEach(function(element, index, array) {
+        messages.push({
+          err: element,
+          type: "danger"
+        });
+      });
+
       reply.view("register", {
-        msgs: response,
+        msgs: messages,
         name: req.payload.name
       });
     } else {
+      messages.push({
+        err: response,
+        type: "success"
+      });
       var posts = new Posts();
       posts.getAll(function(posts) {
         reply.redirect("/", {
           blog: posts,
-          msgs: response
+          msgs: messages
         });
       });
     }
