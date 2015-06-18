@@ -18,6 +18,7 @@ module.exports = Backbone.Model.extend({
     if (data.title != "" && data.content != "") {
       console.log(query);
       var stmt = query.db.prepare(ADD);
+      data.title = data.title.trim();
       var slug = data.title
                   .toLowerCase()
                   .replace(/'/g, '')

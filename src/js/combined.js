@@ -986,11 +986,19 @@
 
 var LoginModel = Backbone.Model.extend({
   defaults: {
-    user: document.cookie.replace(/(?:(?:^|.*;\s*)loggedIn\s*\=\s*([^;]*).*$)|^.*$/, "$1");,
-    validLogin: "true"
+    user: ''
   },
-  logoutCmd: function() {
-    this.set("user", '');
+  authenticate: function () {
+    console.log("Authenticating....");
+    var model = this;
+    $.ajax({
+      url: "/auth",
+      method: "POST",
+      datatype: "json",
+    }).done(function(response) {
+      console.log(response);
+      model.set("user", response);
+    });
   },
   loginCmd: function() {
     var model = this;
@@ -999,24 +1007,15 @@ var LoginModel = Backbone.Model.extend({
       method: "POST",
       datatype: "json",
       data: $(".login form").serializeArray()
-    })
-    .done(function(response) {
+    }).done(function(response) {
       console.log(response);
-      if (response.pass) {
-        model.set("user", response.user);
-        document.cookie = "loggedIn=" + response.user;
-      } else {
-        model.set("validLogin", "false");
-      }
+      model.set("user", response);
     });
   }
 });
 
 var login = new LoginModel();
-
-login.on("change:user", function(model, newValue) {
-  console.log("The new value is:", newValue);
-});
+login.authenticate();
 
 var LoginView = Backbone.View.extend({
   el: ".login",
@@ -1026,16 +1025,11 @@ var LoginView = Backbone.View.extend({
   },
   events: {
     "click .submitLogin": "loginEvent",
-    "click .logout": "logoutEvent"
   },
   loginEvent: function(e) {
     e.preventDefault();
     console.log("Attempting Login...");
     this.model.loginCmd();
-  },
-  logoutEvent: function(e) {
-    e.preventDefault();
-    this.model.logoutCmd();
   },
   render: function() {
     var data = this.model.toJSON();

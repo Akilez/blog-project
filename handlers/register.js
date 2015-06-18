@@ -26,7 +26,7 @@ module.exports = function(req, reply) {
       });
       var posts = new Posts();
       posts.getAll(function(posts) {
-        reply.redirect("/", {
+        reply.view("index", {
           blog: posts,
           msgs: messages
         });

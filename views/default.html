@@ -39,7 +39,7 @@
       <% if (user) { %>
         <h3>Welcome, <%= user %></h3>
         <a class="btn btn-primary" href="/add">Add New Post</a>
-        <a class="btn btn-default logout" href="#">Logout</a>
+        <a class="btn btn-default logout" href="/logout">Logout</a>
       <% } else { %>
         <form action="/login" method="post">
           <div class="form-group">

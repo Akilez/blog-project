@@ -7,9 +7,7 @@ module.exports = [
   {
     path:"/add",
     method:"GET",
-    handler: function(req, reply) {
-      reply.view("add-new")
-    }
+    handler: require("./handlers/add.js")
   },
   {
     path:"/add",
@@ -17,9 +15,19 @@ module.exports = [
     handler: require("./handlers/add_new.js")
   },
   {
+    path:"/auth",
+    method:"POST",
+    handler: require("./handlers/authenticate.js")
+  },
+  {
     path:"/login",
     method:"POST",
     handler: require("./handlers/login.js")
+  },
+  {
+    path:"/logout",
+    method:"GET",
+    handler: require("./handlers/logout.js")
   },
   {
     path:"/register",

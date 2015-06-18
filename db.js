@@ -16,7 +16,10 @@ var wrapper = {
           db.run("CREATE TABLE IF NOT EXISTS posts (title, slug PRIMARY KEY, date, content, author)", next);
         },
         function(next) {
-          db.run("CREATE TABLE IF NOT EXISTS users (name PRIMARY KEY, password, seed, role)", next);
+          db.run("CREATE TABLE IF NOT EXISTS users (name PRIMARY KEY NOT NULL, password NOT NULL, seed, role)", next);
+        },
+        function(next) {
+          db.run("CREATE TABLE IF NOT EXISTS auth (name PRIMARY KEY, secret)", next);
         }
       ], function(err) {
         if (done) done(err);

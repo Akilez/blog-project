@@ -13,6 +13,17 @@ module.exports = Backbone.Model.extend ({
   },
   add: function(complete) {
     var data = this.toJSON();
+    if (!data.name || !data.password) {
+      var messages=[];
+      if (!data.name) {
+        messages.push("Username cannot be blank!");
+      }
+      if (!data.password) {
+        messages.push("Password cannot be blank!");
+      }
+      complete(messages, null);
+      return;
+    }
     var stmt = query.db.prepare(ADD);
     var hashed = require("./passwordHashIT.js")(data.password, data.seed);
     stmt.run({
@@ -22,6 +33,7 @@ module.exports = Backbone.Model.extend ({
       $role: data.role
     }, function (error) {
       if (error) {
+        console.log(error);
         if (error.errno == 19) {
           complete(["That username is already taken!"], null);
         } else {
@@ -34,12 +46,11 @@ module.exports = Backbone.Model.extend ({
   },
   getUser: function (complete) {
     var data = this.toJSON();
-    console.log(data);
     var stmt = query.db.prepare(GET);
     stmt.get({
       $name: data.name,
     }, function(err, result) {
       complete(err, result);
-    });   
+    });
   }
 });

@@ -1,4 +1,5 @@
 var User = require("../models/user.js");
+var Auth = require("../models/auth.js");
 
 module.exports = function(req, reply) {
   console.log(req.payload);
@@ -9,14 +10,13 @@ module.exports = function(req, reply) {
       var hashed = require("../models/passwordHashIT.js")(req.payload.password, response.seed);
       console.log(hashed, response.password);
       if (hashed == response.password) {
-        reply({
-          user: response.name,
-          pass: true
-        });
-      } else {
-        reply({
-          user: response.name,
-          pass: false
+        var auth = new Auth(response);
+        auth.addAuth(function(err, response) {
+          reply(response)
+            .state("loggedIn", response, {
+              isHttpOnly: true,
+              encoding: 'base64json',
+            });
         });
       }
     }
